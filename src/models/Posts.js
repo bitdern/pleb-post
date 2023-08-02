@@ -9,3 +9,11 @@ const UserSchema = new Schema({
     },
   },
 });
+
+UserSchema.set("toJSON", { getters: true });
+
+UserSchema.options.toJSON.transform = (doc, ret) => {
+  delete ret.__id;
+  delete ret.__v;
+  return ret;
+};
