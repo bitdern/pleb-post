@@ -17,3 +17,7 @@ UserSchema.options.toJSON.transform = (doc, ret) => {
   delete ret.__v;
   return ret;
 };
+
+const User = models.User || model("User", UserSchema);
+
+export default User;

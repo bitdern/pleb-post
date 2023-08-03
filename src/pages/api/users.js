@@ -1,3 +1,6 @@
+import connectMongo from "@/lib/connectMongo";
+import User from "@/models/Posts";
+
 export default function handler(req, res) {
   switch (req.method) {
     case "GET": {
@@ -9,5 +12,29 @@ export default function handler(req, res) {
     default: {
       return res.status(405).json({ error: "Method not allowed" });
     }
+  }
+}
+
+async function getUsers(req, res) {
+  try {
+    await connectMongo();
+
+    const users = await User.find();
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function addUser(req, res) {
+  try {
+    await connectMongo();
+
+    const users = await User.create(req.body);
+
+    res.status(201).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 }
