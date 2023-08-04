@@ -1,5 +1,5 @@
 import connectMongo from "@/lib/connectMongo";
-import User from "@/models/Posts";
+import User from "@/models/Users";
 
 export default function handler(req, res) {
   switch (req.method) {
