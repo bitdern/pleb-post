@@ -31,7 +31,19 @@ async function addUser(req, res) {
   try {
     await connectMongo();
 
-    const users = await User.create(req.body);
+    const name = req.body.username.replace(/\s+/g, "");
+
+    const newUserObject = {
+      username: name,
+    };
+
+    const userExists = await User.findOne({ username: name });
+
+    if (userExists) {
+      return res.status(200).json(userExists);
+    }
+
+    const user = await User.create(newUserObject);
 
     res.status(201).json(users);
   } catch (error) {
