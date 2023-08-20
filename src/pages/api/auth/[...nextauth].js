@@ -20,12 +20,10 @@ const giveNewUserWallet = async (username) => {
     { headers: header }
   );
 
-  console.log("response from lnbits", response);
-
-  console.log(response.data);
-
-  return response.data;
+  return response.data.wallets[0];
 };
+
+// TODO - figure out if a user already has a wallet
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -37,8 +35,13 @@ export const authOptions = {
   ],
   callbacks: {
     async session({ session }) {
+      const wallet = giveNewUserWallet(session.user.name);
       const user = await axios.post("http://localhost:3000/api/users", {
         username: session.user.name,
+        wallet_id: wallet.id,
+        admin_id: wallet.admin,
+        admin_key: wallet.adminkey,
+        in_key: wallet.inkey,
       });
 
       if (user.status === 200) {
@@ -46,10 +49,6 @@ export const authOptions = {
         session.user = user.data.exists;
         return session;
       } else if (user.status === 201) {
-        const wallet = giveNewUserWallet(user.data.username);
-
-        user.data.wallet = wallet;
-
         session.user = user.data;
         return session;
       } else {
