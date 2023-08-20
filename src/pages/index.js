@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
@@ -12,9 +12,12 @@ export default function Home() {
   }, [session]);
 
   useEffect(() => {
+    if (!session) return;
+
     axios
       .get(`http://localhost:3000/api/users/${session.user.username}`)
       .then((res) => {
+        console.log("res", req);
         setUser(res.data);
       })
       .catch((err) => {
