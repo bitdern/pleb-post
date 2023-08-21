@@ -35,11 +35,11 @@ export const authOptions = {
   ],
   callbacks: {
     async session({ session }) {
-      const wallet = giveNewUserWallet(session.user.name);
+      const wallet = await giveNewUserWallet(session.user.name);
       const user = await axios.post("http://localhost:3000/api/users", {
         username: session.user.name,
         wallet_id: wallet.id,
-        admin_id: wallet.admin,
+        wallet_admin: wallet.admin,
         admin_key: wallet.adminkey,
         in_key: wallet.inkey,
       });

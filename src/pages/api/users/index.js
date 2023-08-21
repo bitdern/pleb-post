@@ -35,6 +35,7 @@ async function addUser(req, res) {
 
     const newUserObject = {
       username: name,
+      ...req.body,
     };
 
     const userExists = await User.findOne({ username: name });
