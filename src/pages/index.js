@@ -13,24 +13,26 @@ export default function Home() {
   }, [session]);
 
   useEffect(() => {
-    if (!session) return;
-
-  useEffect(() => {
-    if (!user) return;
+    if (!session?.user) return;
 
     const headers = {
       "Content-Type": "application/json",
-      "X-Api-Key": user.in_key,
-    }
+      "X-Api-Key": session.user.in_key,
+    };
 
-    axios.get(`${process.env.VOLTAGE_URL}/api/v1/wallet`, {headers}).then((res) => {
-      console.log("user wallet res", res);
+    axios
+      .get(`${process.env.VOLTAGE_URL}/api/v1/wallet`, { headers })
+      .then((res) => {
+        console.log("user wallet res", res);
 
-      setUserBalance(res.data.balance)
-    })
-    .catch((err) => {
-      console.log(err);
-    }, [user]);
+        setUserBalance(res.data.balance);
+      })
+      .catch(
+        (err) => {
+          console.log(err);
+        },
+        [user]
+      );
 
     axios
       .get(`http://localhost:3000/api/users/${session.user.username}`)
@@ -41,15 +43,17 @@ export default function Home() {
       .catch((err) => {
         console.log(err);
       });
-  }, [session]);
+  }, [user, session]);
 
   return (
     <main>
       <h1>Hello World</h1>
-      <h1>{status}</h1>
+      <h1>
+        {status} / Balance {userBalance}
+      </h1>
 
       <button onClick={() => signIn()}>login</button>
       <button onClick={() => signOut()}>logout</button>
     </main>
   );
-  }
+}
