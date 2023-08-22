@@ -35,25 +35,41 @@ export const authOptions = {
   ],
   callbacks: {
     async session({ session }) {
+      if (!session.user.name) {
+        return session;
+      }
+
+      // remove spaces in the username
+      session.user.name = session.user.name.replace(/\s+/g, "");
+
+      const exists = await userExists(session.user.name);
+
+      if (exists) {
+        session.user = exists;
+        return session;
+      }
+
+      // If the user doesn't exist, create a wallet for them
       const wallet = await giveNewUserWallet(session.user.name);
-      const user = await axios.post("http://localhost:3000/api/users", {
+
+      // With our wallet data we can now create the user in our database
+      const user = {
         username: session.user.name,
         wallet_id: wallet.id,
         wallet_admin: wallet.admin,
         admin_key: wallet.adminkey,
         in_key: wallet.inkey,
-      });
+      };
 
-      if (user.status === 200) {
-        // add user wallet to session
-        session.user = user.data.exists;
-        return session;
-      } else if (user.status === 201) {
-        session.user = user.data;
-        return session;
-      } else {
+      const userCreated = await createUser(user);
+
+      if (userCreated) {
+        console.log("user created", userCreated);
+        session.user = userCreated;
         return session;
       }
+
+      return session;
     },
   },
 };
