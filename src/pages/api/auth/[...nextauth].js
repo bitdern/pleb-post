@@ -1,29 +1,5 @@
-import axios from "axios";
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-
-const giveNewUserWallet = async (username) => {
-  const header = {
-    "Content-Type": "application/json",
-    "X-Api-Key": process.env.LNBITS_KEY,
-  };
-
-  const body = {
-    user_name: username,
-    wallet_name: `${username}-wallet`,
-    admin_id: process.env.LNBITS_ADMIN_ID,
-  };
-
-  const response = await axios.post(
-    `${process.env.VOLTAGE_URL}/usermanager/api/v1/users`,
-    body,
-    { headers: header }
-  );
-
-  return response.data.wallets[0];
-};
-
-// TODO - figure out if a user already has a wallet
 
 export const authOptions = {
   // Configure one or more authentication providers
