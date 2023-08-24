@@ -5,12 +5,7 @@ import axios from "axios";
 
 export default function Home() {
   const { data: session, status } = useSession();
-  const [user, setUser] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
 
   useEffect(() => {
     if (!session?.user) return;
@@ -21,11 +16,13 @@ export default function Home() {
     };
 
     axios
-      .get(`${process.env.VOLTAGE_URL}/api/v1/wallet`, { headers })
+      .get(`https://2866be8917.d.voltageapp.io/usermanager/api/v1/wallets`, {
+        headers,
+      })
       .then((res) => {
         console.log("user wallet res", res);
 
-        setUserBalance(res.data.balance);
+        setUserBalance(res.data.balance / 1000);
       })
       .catch(
         (err) => {
@@ -41,16 +38,17 @@ export default function Home() {
         setUser(res.data);
       })
       .catch((err) => {
+        console.log("user wallet err");
         console.log(err);
       });
-  }, [user, session]);
+  }, [session]);
 
   return (
     <main>
-      <h1>Hello World</h1>
-      <h1>
+      <h1>Pleb-Post</h1>
+      <h2>
         {status} / Balance {userBalance}
-      </h1>
+      </h2>
 
       <button onClick={() => signIn()}>login</button>
       <button onClick={() => signOut()}>logout</button>
