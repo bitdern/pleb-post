@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Button } from "@chakra-ui/react";
 import axios from "axios";
 
 export default function Home() {
@@ -24,19 +25,6 @@ export default function Home() {
 
         setUserBalance(res.data.balance / 1000);
       })
-      .catch(
-        (err) => {
-          console.log(err);
-        },
-        [user]
-      );
-
-    axios
-      .get(`http://localhost:3000/api/users/${session.user.username}`)
-      .then((res) => {
-        console.log("res", req);
-        setUser(res.data);
-      })
       .catch((err) => {
         console.log("user wallet err");
         console.log(err);
@@ -50,8 +38,9 @@ export default function Home() {
         {status} / Balance {userBalance}
       </h2>
 
-      <button onClick={() => signIn()}>login</button>
-      <button onClick={() => signOut()}>logout</button>
+      <Button colorScheme="blue">
+        {status !== "authenticated" ? "Login" : "Logout"}
+      </Button>
     </main>
   );
 }
