@@ -38,9 +38,7 @@ export default function Home() {
         {status} / Balance {userBalance}
       </h2>
 
-      <Button colorScheme="blue">
-        {status !== "authenticated" ? "Login" : "Logout"}
-      </Button>
+      <Button>{status !== "authenticated" ? "Login" : "Logout"}</Button>
     </main>
   );
 }

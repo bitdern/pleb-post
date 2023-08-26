@@ -6,6 +6,7 @@ import {
   MenuItem,
   MenuList,
   ChevronDownIcon,
+  Button,
 } from "@chakra-ui/react";
 import "./style.module.css";
 
@@ -13,17 +14,18 @@ const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div>
+    <div className="navbar">
       <Menu>
-        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-          Menu
-        </MenuButton>
+        <MenuButton as={Button}>Menu</MenuButton>
         <MenuList>
           <MenuItem>Posts</MenuItem>
           <MenuItem>Users</MenuItem>
           <MenuItem>Profile</MenuItem>
         </MenuList>
       </Menu>
+      <p>{status}</p>
     </div>
   );
 };
+
+export default Navbar;
