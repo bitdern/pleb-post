@@ -17,7 +17,7 @@ const PostsList = () => {
   }, []);
 
   return (
-    <div className={styles.posList}>
+    <div className={styles.postsList}>
       {posts.map((post) => {
         <div className={styles.post} key={post._id}>
           <h3>{post.title}</h3>

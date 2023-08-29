@@ -1,0 +1,13 @@
+.postsList {
+  margin: 1% auto;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.post {
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: darkgrey;
+}
