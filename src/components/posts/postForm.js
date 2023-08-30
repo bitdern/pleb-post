@@ -15,7 +15,19 @@ const PostForm = () => {
     return;
   };
 
-  return <form onSubmit={handleSubmit}></form>;
+  return (
+    <form onSubmit={handleSubmit}>
+      <FormControl>
+        <FormLabel>Post Template</FormLabel>
+        <Input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+        />
+      </FormControl>
+    </form>
+  );
 };
 
 export default PostForm;
