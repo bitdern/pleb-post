@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./styles.module.css";
+import { Button } from "@chakra-ui/react";
 
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
@@ -16,13 +17,19 @@ const PostsList = () => {
       });
   }, []);
 
+  // Tip button functionality
+  // 1) Get wallet info from post author;
+  // 2) use wallet info to create incouce;
+  // 3) Tipper recieves same invoice to complete payment;
+
   return (
     <div className={styles.postsList}>
       {posts.map((post) => {
         <div className={styles.post} key={post._id}>
           <h3>{post.title}</h3>
           <p>{post.description}</p>
-          <span>{post.author}</span>
+          <p>{post.author}</p>
+          <Button onClick={() => {}}>Tip</Button>
         </div>;
       })}
     </div>
