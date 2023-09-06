@@ -4,7 +4,7 @@ import User from "@/models/Users";
 export default function handler(req, res) {
   switch (req.method) {
     case "GET": {
-      return getUserById(req, res);
+      return getUserByUserName(req, res);
     }
     default: {
       return res.status(405).json({ error: "Method not allowed" });
@@ -12,11 +12,15 @@ export default function handler(req, res) {
   }
 }
 
-async function getUserById(req, res) {
+async function getUserByUserName(req, res) {
   try {
     await connectMongo();
 
-    const user = await User.findOne({ username: req.query.slug });
+    const user = await User.find({ username: req.query.slug });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
     res.status(200).json(user);
   } catch (error) {

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./styles.module.css";
 import { Button } from "@chakra-ui/react";
+import { tipAction } from "@/flows/tipping";
+import { useSession } from "next-auth/react";
 
 const PostsList = () => {
+  const { data: session, status } = useSession();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -17,11 +20,6 @@ const PostsList = () => {
       });
   }, []);
 
-  // Tip button functionality
-  // 1) Get wallet info from post author;
-  // 2) use wallet info to create incouce;
-  // 3) Tipper recieves same invoice to complete payment;
-
   return (
     <div className={styles.postsList}>
       {posts.map((post) => {
@@ -29,7 +27,12 @@ const PostsList = () => {
           <h3>{post.title}</h3>
           <p>{post.description}</p>
           <p>{post.author}</p>
-          <Button onClick={() => {}}>Tip</Button>
+          <Button
+            onClick={() => tipAction(post.author, session.user.in_key)}
+            disabled={status !== "authenticated"}
+          >
+            Tip
+          </Button>
         </div>;
       })}
     </div>
