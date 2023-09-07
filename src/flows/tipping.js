@@ -57,8 +57,10 @@ export const tipAction = async (username, session) => {
       `http://localhost3000/api/users/${username}`
     );
 
-    if (response.data) {
-      const invoice = await createInvoice(response.data);
+    const user = response.data[0];
+
+    if (user) {
+      const invoice = await createInvoice(user);
 
       if (invoice) {
         const tip = await payInvoice(invoice, session);

@@ -28,7 +28,7 @@ const PostsList = () => {
           <p>{post.description}</p>
           <p>{post.author}</p>
           <Button
-            onClick={() => tipAction(post.author, session.user.in_key)}
+            onClick={() => tipAction(post.author, session)}
             disabled={status !== "authenticated"}
           >
             Tip
